@@ -10,13 +10,13 @@ def run_test():
     
 def test_create_table(db):
     tables = db.get_tables()
-    print tables
+    print(tables)
     
     if not "test" in tables:
         db.execute("CREATE TABLE test (id TEXT, value TEXT)")
         
     tables = db.get_tables()
-    print tables
+    print(tables)
     
 def test_insert(db):
     for i in range(0, 1000):
@@ -25,17 +25,17 @@ def test_insert(db):
 def test_select(db):
     result = db.execute("SELECT id, value FROM test")
     for row in result:
-        print "%s: %s" % (row["id"], row["value"])
+        print("%s: %s" % (row["id"], row["value"]))
     
 def test_drop_table(db):
     tables = db.get_tables()
-    print tables
+    print(tables)
     
     if "test" in tables:
         db.execute("DROP TABLE test")
         
     tables = db.get_tables()
-    print tables
+    print(tables)
     
 if __name__ == "__main__":
     run_test()

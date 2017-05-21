@@ -8,7 +8,7 @@ License:     GPL
 This module contains a simple thread-safe wrapper for a sqlite3 database.
 """
 import logging
-import Queue
+import queue
 import sqlite3
 import threading
 import time
@@ -29,7 +29,7 @@ class DBWrapper(threading.Thread):
     """
     super(DBWrapper, self).__init__()
     self._filename = filename
-    self._queue = Queue.Queue()
+    self._queue = queue.Queue()
     self._stopped = threading.Event()
     self._n = 0
     #initialize logging
@@ -73,7 +73,7 @@ class DBWrapper(threading.Thread):
       try:
         for row in cursor.execute(cmd, params):
           res.append(row)
-      except sqlite3.Error, e:
+      except sqlite3.Error as e:
         self._logger.error("Database error: '%s'." % e.args[0])
       
       q.put(res)
@@ -104,7 +104,7 @@ class DBWrapper(threading.Thread):
     n = self._n
     start = time.time()
     if not self._stopped.isSet():
-      q = Queue.Queue()
+      q = queue.Queue()
       self._queue.put((cmd, params, q))
       res = q.get()
       dur = time.time() - start
